@@ -17,18 +17,18 @@ metadata:
 spec:
   ports:
     - name: http
-      port: {{ default 80 .anycablePort }}
+      port: 80
+      targetPort: 8080
       protocol: TCP
-      targetPort: http
-    {{- if .anycableMetricsPort }}
-    - name: metrics
-      port: {{ .anycableMetricsPort }}
-      protocol: TCP
-      targetPort: metrics
-    {{- end }}
+    # {{- if .anycableMetricsPort }}
+    # - name: metrics
+    #   port: {{ .anycableMetricsPort }}
+    #   protocol: TCP
+    #   targetPort: metrics
+    # {{- end }}
   selector:
     app: {{ template "anycableGo.name" $ }}
     component: anycable-go
     release: {{ $.Release.Name | quote }}
-  type: ClusterIP
+  type: LoadBalancer
 {{- end }}
